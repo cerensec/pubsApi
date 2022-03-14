@@ -26,28 +26,22 @@ module.exports = (app, db)=>{
     
     
     //route de login de l'utilisateur
-    app.post('/api/user/login', async (req,res,next)=>{
-        // we check if the user exists in the db
-        let user = await UserModel.getUserByEmail(req.body.email);
-        // if the response is an empty array it doesn't exists
-        if(user.length === 0){
-            // we send an error message saying that the user doesn't exists
-            res.json({status:500, msg:"User not found"});
-        }
-        // we compare the passwords
-        let same = await bcrypt.compare(req.body.password, user[0].password)
-        console.log(same)
-        if(same){
-            let infos = {id: user[0].id, email: user[0].email}
+    app.post('/api/v1/user/login', async (req,  res, next)=>{
+        let user = await userModel.getUserByMail(req.body.email);
+    	if(user.length === 0) {
+    		res.json({status: 404, msg: "email inexistant dans la base de donnée"})
+    	}
+    	let same = await bcrypt.compare(req.body.password, user[0].password);
+    	if(same) {
+    	    let infos = {id: user[0].id, email: user[0].email}
     		let token = jwt.sign(infos, secret);
 
-            res.json({status:200, msg:"User connected", token:token, user:user[0]})
-        }else{
-            res.json({status:401, msg:"Inorrect password"})
-        }
+    		res.json({status: 200, msg: "connecté", token: token, user: user[0]})
+    	    
+    	}else{
+    	    res.json({status: 401, msg: "mauvais mot de passe"})
+    	}
     })
-
-    
     //route de récupération d'un utilisateur par son id
     app.get('/api/user/:id', async(req,res,next)=>{
         let user = await UserModel.getOneUser(req.params.id);
