@@ -36,6 +36,7 @@ module.exports = (app, db)=>{
         }
         // we compare the passwords
         let same = await bcrypt.compare(req.body.password, user[0].password)
+        console.log(same)
         if(same){
             let infos = {id: user[0].id, email: user[0].email}
     		let token = jwt.sign(infos, secret);
