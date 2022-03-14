@@ -39,6 +39,7 @@ module.exports = (app, db)=>{
     		res.json({status: 200, msg: "connecté", token: token, user: user[0]})
     	    
     	}else{
+            console.log(same);
     	    res.json({status: 401, msg: "mauvais mot de passe"})
     	}
     })
