@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
+const withAuth = require('../withAuth');
 const secret = 'TemporalSecret';
 
 module.exports = (app, db)=>{
@@ -60,7 +61,7 @@ module.exports = (app, db)=>{
     })   
     
     //route de mise à jour du token de validation des notifs
-    app.put('/api/user/updateNotifToken/:id', async(req,res,next)=>{
+    app.put('/api/user/updateNotifToken/:id',withAuth, async(req,res,next)=>{
         let update = await UserModel.updateUuid(req.params.id, req.body.uuid);
         if(user.code){
             res.json({status:500,msg:"Error updating the user Notification Token"})
