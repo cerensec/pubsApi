@@ -1,3 +1,4 @@
+const withAuth = require('../withAuth');
 module.exports = (app, db)=>{
 	const PubModel = require('../models/PubModel')(db)
 	
