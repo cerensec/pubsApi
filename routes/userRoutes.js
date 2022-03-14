@@ -35,19 +35,15 @@ module.exports = (app, db)=>{
             res.json({status:500, msg:"User not found"});
         }
         // we compare the passwords
-        console.log("password",req.body.password)
-        bcrypt.compare(req.body.password, user[0].password)
-        .then((same)=>{
-            console.log(same);
-            // if they are the same
-            if(same){
-                res.json({status:200,msg:"Passwords match"})
-            // else
-            }else{
-                // json negative response with 401 status with incorrect password
-                res.json({status:500,msg:"Passwords don't match"})
-            }   
-        })              
+        let same = await bcrypt.compare(req.body.password, user[0].password)
+        if(same){
+            let infos = {id: user[0].id, email: user[0].email}
+    		let token = jwt.sign(infos, secret);
+
+            res.json({status:200, msg:"User connected", token:token, user:user[0]})
+        }else{
+            res.json({status:401, msg:"Inorrect password"})
+        }
     })
 
     
@@ -57,7 +53,7 @@ module.exports = (app, db)=>{
         if(user.code){
             res.json({status:500,msg:"Error getting the user"});
         }
-        res.json({status:200,msg:"User retrieved successfully",user:user});
+        res.json({status:200,msg:"User retrieved successfully",user:user[0]});
     })   
     
     //route de mise à jour du token de validation des notifs
