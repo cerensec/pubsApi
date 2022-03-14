@@ -1,11 +1,11 @@
 module.exports = {
-    db:{
-        host:"db.3wa.io",
-        database:"carlosceren_babypub",
-        user:"carlosceren",
-        password: "78978bb2afb1cfd2d31b39fbd302277f"
+    db: {
+        host:"eu-cdbr-west-02.cleardb.net",
+        database: "heroku_cd79302181ae434",
+        user: "b4bb319b627eea",
+        password: "bae02698"
     },
     token:{
-        secret: "TemporalSecret"
+        secret:"temporalSecret"
     }
 }
