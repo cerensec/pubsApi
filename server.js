@@ -24,7 +24,9 @@ if(!process.env.HOST_DB){
 
 // we get all the routes
 const userRoutes = require('./routes/userRoutes');
-const pubRoutes = require('./routes/pubRoutes')
+const pubRoutes = require('./routes/pubRoutes');
+const authRoutes = require('./routes/authRoutes');
+const notifRoutes = require('./routes/notifRoutes');
 
 // DB connection 
 const host = process.env.HOST_DB || config.db.host;
@@ -51,7 +53,9 @@ mysql.createConnection({
 
     // all the routes are in the modules
     userRoutes(app,db);
-	pubRoutes(app,db)
+	pubRoutes(app,db);
+    authRoutes(app,db);
+    notifRoutes(app,db);
 
 })
 .catch(err=>console.log("Error connecting to db",err))
