@@ -11,7 +11,7 @@ module.exports = (app, db)=>{
     app.post('/api/user/save',async (req,res,next)=>{
         // we check if the email exists
         console.log(req.body)
-        let email = await UserModel.getUserByMail(req.body.email)
+        let email = await UserModel.getUserByEmail(req.body.email)
         // if it doesn't 
         if(email.length > 0){
             res.json({status:500, msg:"This email is already in use"})
@@ -26,22 +26,23 @@ module.exports = (app, db)=>{
     
     
     //route de login de l'utilisateur
-    app.post('/api/v1/user/login', async (req,  res, next)=>{
+    app.post('/api/user/login', async (req,  res, next)=>{
         let user = await UserModel.getUserByEmail(req.body.email);
     	if(user.length === 0) {
     		res.json({status: 404, msg: "email inexistant dans la base de donnée"})
-    	}
-    	let same = await bcrypt.compare(req.body.password, user[0].password);
-    	if(same) {
-    	    let infos = {id: user[0].id, email: user[0].email}
-    		let token = jwt.sign(infos, secret);
-
-    		res.json({status: 200, msg: "connecté", token: token, user: user[0]})
-    	    
     	}else{
-            console.log(same);
-    	    res.json({status: 401, msg: "mauvais mot de passe"})
-    	}
+            let same = await bcrypt.compare(req.body.password, user[0].password);
+            if(same) {
+                let infos = {id: user[0].id, email: user[0].email}
+                let token = jwt.sign(infos, secret);
+    
+                res.json({status: 200, msg: "connecté", token: token, user: user[0]})
+                
+            }else{
+                console.log(same);
+                res.json({status: 401, msg: "mauvais mot de passe"})
+            }
+        }
     })
     //route de récupération d'un utilisateur par son id
     app.get('/api/user/:id', async(req,res,next)=>{
