@@ -27,7 +27,7 @@ module.exports = (app, db)=>{
     
     //route de login de l'utilisateur
     app.post('/api/v1/user/login', async (req,  res, next)=>{
-        let user = await userModel.getUserByMail(req.body.email);
+        let user = await UserModel.getUserByMail(req.body.email);
     	if(user.length === 0) {
     		res.json({status: 404, msg: "email inexistant dans la base de donnée"})
     	}
