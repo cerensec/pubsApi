@@ -16,8 +16,8 @@ module.exports = (app, db)=>{
 	    console.log("token", token)
 	    //si le token uuid n'est pas pas un token valide de expo
 	   	if (!Expo.isExpoPushToken(token)) {
-	            console.log("Token invalide");
-	            res.json({ error: "Token invalide" });
+	            console.log("Invalid Token");
+	            res.json({ error: "Invalid Token" });
 	    } else {
 	        //sinon c'est valide
 	    	//on prépare les infos de la popup de notification à afficher (par défault ici)

@@ -29,7 +29,7 @@ module.exports = (app, db)=>{
     app.post('/api/user/login', async (req,  res, next)=>{
         let user = await UserModel.getUserByEmail(req.body.email);
     	if(user.length === 0) {
-    		res.json({status: 404, msg: "email inexistant dans la base de donnée"})
+    		res.json({status: 404, msg: "This email doesn't is not registered"})
     	}else{
             let same = await bcrypt.compare(req.body.password, user[0].password);
             if(same) {
@@ -40,7 +40,7 @@ module.exports = (app, db)=>{
                 
             }else{
                 console.log(same);
-                res.json({status: 401, msg: "mauvais mot de passe"})
+                res.json({status: 401, msg: "Passwords don't match"})
             }
         }
     })
@@ -54,10 +54,10 @@ module.exports = (app, db)=>{
     })   
     
     //route de mise à jour du token de validation des notifs
-    app.put('/api/user/updateNotifToken/:id',withAuth, async(req,res,next)=>{
-        let update = await UserModel.updateUuid(req.params.id, req.body.uuid);
+    app.put('/api/user/updateUuid',withAuth, async(req,res,next)=>{
+        let update = await UserModel.updateUuid(req.body.id, req.body.uuid);
         if(user.code){
-            res.json({status:500,msg:"Error updating the user Notification Token"})
+            res.json({status:500,msg:"Error updating the user Notification Token",err:user})
         }
         res.json({status:200,msg:"Notification Token updated"})
     })  
