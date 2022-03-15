@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const secret = 'TemporalSecret';
+const secret = 'temporalSecret';
 // middleware permettant de contrôler la validité du token
 const withAuth = (req, res, next)=>{
     // on récupère les information du token stockées dans la partie headers de la requete axios

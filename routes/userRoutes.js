@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const withAuth = require('../withAuth');
-const secret = 'TemporalSecret';
+const secret = 'temporalSecret';
 
 module.exports = (app, db)=>{
 	const UserModel = require('../models/UserModel')(db)
