@@ -12,6 +12,7 @@ const expo = new Expo();
 module.exports = (app, db)=>{
 	//route d'envoi d'une push notification
 	app.post('/api/notif', async (req, res, next)=>{
+		console.log("BODY", req.body)
 	    const token = req.body.token; //recup l'uuid (pas celui de connexion
 	    console.log("token", token)
 	    //si le token uuid n'est pas pas un token valide de expo
