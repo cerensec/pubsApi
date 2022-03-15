@@ -56,8 +56,8 @@ module.exports = (app, db)=>{
     //route de mise à jour du token de validation des notifs
     app.put('/api/user/updateUuid',withAuth, async(req,res,next)=>{
         let update = await UserModel.updateUuid(req.body.id, req.body.uuid);
-        if(user.code){
-            res.json({status:500,msg:"Error updating the user Notification Token",err:user})
+        if(update.code){
+            res.json({status:500,msg:"Error updating the user Notification Token",err:update})
         }
         res.json({status:200,msg:"Notification Token updated"})
     })  
