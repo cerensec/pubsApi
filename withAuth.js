@@ -4,6 +4,7 @@ const secret = 'temporalSecret';
 const withAuth = (req, res, next)=>{
     // on récupère les information du token stockées dans la partie headers de la requete axios
     const token = req.headers['x-access-token'];
+    console.log(token)
     // si pas de token, c'est mort
     if(token === undefined) {
         res.json({status: 404, msg:"Pas de token"})
